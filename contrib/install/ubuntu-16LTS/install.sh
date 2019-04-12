@@ -101,7 +101,7 @@ chown ${MDCS_USER}:${MDCS_USER} ${MDCS_HOME}/.bash_profile
 (su - ${MDCS_USER} -c "pip install --upgrade pip")
 (su - ${MDCS_USER} -c "pip install shortuuid")
 
-echo -e '#!/usr/bin/env python\nimport shortuuid\nprint(shortuuid.ShortUUID.random(length=22))\n' > ${MDCS_INSTALLER_PATH}/getuuid.py
+echo -e '#!/usr/bin/env python\nimport shortuuid\nprint(shortuuid.ShortUUID().random(length=22))\n' > ${MDCS_INSTALLER_PATH}/getuuid.py
 chmod a+x ${MDCS_INSTALLER_PATH}/getuuid.py
 
 export MDCS_MONGO_DB_PATH=${MDCS_USER}/data/db
