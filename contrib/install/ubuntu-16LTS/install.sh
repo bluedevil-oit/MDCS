@@ -186,11 +186,11 @@ systemctl restart redis
 
 (su ${MDCS_USER} -c "curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/${MDCS_INSTALL_BRANCH}/contrib/install/ubuntu-16LTS/install_mdcs.sh > ${MDCS_INSTALLER_PATH}/install_mdcs.sh")
 chmod a+x ${MDCS_INSTALLER_PATH}/install_mdcs.sh
-(su - ${MDCS_USER} - "./${MDCS_INSTALLER_PATH}/install_mdcs.sh")
+(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/install_mdcs.sh")
 
 # install apache, wsgi and configure wsgi for mdcs
 
 
-echo if you would like to login as ${MDCS_USER} from the ubuntu login page, execute "sudo passwd ${MDCS_USER}" and set a password to use from the login page
-echo Otherwise you should be able to get into the ${MDCS_USER} environment from teh console using "sudo su - ${MDCS_USER}"
+echo if you would like to login as ${MDCS_USER} from the ubuntu login page, execute \"sudo passwd ${MDCS_USER}\" and set a password to use from the login page
+echo Otherwise you should be able to get into the ${MDCS_USER} environment from the console using \"sudo su - ${MDCS_USER}\"
 
