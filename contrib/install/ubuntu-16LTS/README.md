@@ -30,7 +30,7 @@ export MDCS_INSTALL_FORK='usnistgov' # use your GitHub fork name if you intend t
 export MDCS_INSTALL_BRANCH='develop' # use a different branch if necessary e.g. large change or for production use latest tag name e.g. 2.0.1
 export MDCS_USER=mdcs # mdcs username 
 export MDCS_HOME_PARENT_DIR='/' # home directory for the user will be created in this directory e.g. /mdcs (/home/USERNAME is usually the default)
-export MSCS_MONGO_PORT="27017" # override if necessary
+export MDCS_MONGO_PORT="27017" # override if necessary
 sudo apt-get update
 sudo apt-get install -y curl
 curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/mdcs/${MDCS_INSTALL_BRANCH}/contrib/install/ubuntu-16LTS/install.sh > ./mdcsinstall.sh
