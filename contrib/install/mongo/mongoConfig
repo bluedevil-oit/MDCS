@@ -1,0 +1,35 @@
+# where to write logging data.
+# MDCS_MONGO_PORT, MDCS_MONGO_DB_PATH will be replaced by installer while copying the file to the mongo config directory
+systemLog:
+  destination: file
+  logAppend: true
+  path: /var/log/mongodb/mongod.log
+
+# network interfaces
+net:
+  port: ${MDCS_MONGO_PORT}
+  bindIp: 127.0.0.1
+
+
+# how the process runs
+processManagement:
+  timeZoneInfo: /usr/share/zoneinfo
+
+# MONGO_DB_PATH will be replaced by installer while copying the file to the mongo config directory
+storage:
+  dbPath: ${MDCS_MONGO_DB_PATH}
+
+security:
+   authorization: enabled
+
+#operationProfiling:
+
+#replication:
+
+#sharding:
+
+## Enterprise-Only Options:
+
+#auditLog:
+
+#snmp:
