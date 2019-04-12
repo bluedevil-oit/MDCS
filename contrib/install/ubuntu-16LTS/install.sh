@@ -91,9 +91,9 @@ fi
 pip install virtualenv
 (su - ${MDCS_USER} -c "virtualenv ${MDCS_VENV}")
 echo "source ${MDCS_HOME}/${MDCS_VENV}/bin/activate" >> ${MDCS_HOME}/.bashrc
-echo "source ${MSCS_VARS}" >> ${MDCS_HOME}/.bashrc
+echo "source ${MDCS_VARS}" >> ${MDCS_HOME}/.bashrc
 echo "source ${MDCS_HOME}/${MDCS_VENV}/bin/activate" >> ${MDCS_HOME}/.bash_profile
-echo "source ${MSCS_VARS}" >> ${MDCS_HOME}/.bash_profile
+echo "source ${MDCS_VARS}" >> ${MDCS_HOME}/.bash_profile
 
 chown ${MDCS_USER}:${MDCS_USER} ${MDCS_HOME}/.bashrc
 chown ${MDCS_USER}:${MDCS_USER} ${MDCS_HOME}/.bash_profile
@@ -141,8 +141,8 @@ curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/${MDCS_INS
 
 export tmpFile=$(mktemp)
 echo 'Updating mongo config using temporary work file: ' $tmpFile
-sed -e "s/${MDCS_MONGO_PORT}/${MDCS_MONGO_PORT}/g" /etc/mongod.conf |
-sed -e "s/${MDCS_MONGO_DB_PATH}/${MDCS_MONGO_DB_PATH}/g"   |
+sed -e "s/\$\{MDCS_MONGO_PORT\}/${MDCS_MONGO_PORT}/g" /etc/mongod.conf |
+sed -e "s/\$\{MDCS_MONGO_DB_PATH\}/${MDCS_MONGO_DB_PATH}/g"   |
 sed -r '/^\s*$/d' > $tmpFile  # GNU sed extension to remove blank lines
 cp ${tmpFile} /etc/mongod.conf
 
