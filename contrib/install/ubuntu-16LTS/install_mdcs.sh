@@ -13,8 +13,8 @@ fi
 git clone -b ${MDCS_INSTALL_BRANCH} https://github.com/${MDCS_INSTALL_FORK}/MDCS.git ${MDCS_TARGET_DIR}
 
 ## NOTE: TEMPORARY OVERRIDE! Since only 2.0.1 components are published, we force the requirements lists to 2.0.1 level
-curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/2.0.1/requirements.txt > ${MDCS_TARGET_DIR}/requirements.txt")
-curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/2.0.1/requirements.core.txt > ${MDCS_TARGET_DIR}/requirements.core.txt")
+curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/2.0.1/requirements.txt > ${MDCS_TARGET_DIR}/requirements.txt"
+curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/2.0.1/requirements.core.txt > ${MDCS_TARGET_DIR}/requirements.core.txt"
 
 ## END OVERRIDE
 
