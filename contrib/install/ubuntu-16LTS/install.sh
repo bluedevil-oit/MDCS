@@ -141,8 +141,8 @@ curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/${MDCS_INS
 
 export tmpFile=$(mktemp)
 echo 'Updating mongo config using temporary work file: ' $tmpFile
-sed -e 's/${MDCS_MONGO_PORT}/'${MDCS_MONGO_PORT}'/g' /etc/mongod.conf |
-sed -e 's/${MDCS_MONGO_DB_PATH}/'${MDCS_MONGO_DB_PATH}'/g'   |
+sed -e "s/${MDCS_MONGO_PORT}/${MDCS_MONGO_PORT}/g" /etc/mongod.conf |
+sed -e "s/${MDCS_MONGO_DB_PATH}/${MDCS_MONGO_DB_PATH}/g"   |
 sed -r '/^\s*$/d' > $tmpFile  # GNU sed extension to remove blank lines
 cp ${tmpFile} /etc/mongod.conf
 

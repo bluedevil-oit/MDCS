@@ -20,8 +20,8 @@ pip install --no-cache-dir -r requirements.core.txt
 # update MDCS to mongo connection info
 export tmpFile=$(mktemp)
 echo 'Updating MDCS settings using temporary work file: ' $tmpFile
-sed -e 's/mgi_user/'${MDCS_MONGO_API_USER}'/g' ${MDCS_TARGET_PATH}/mdcs/settings.py |
-sed -e 's/mgi_password/'${MDCS_MONGO_API_PWD}'/g' > $tmpFile
+sed -e "s/mgi_user/${MDCS_MONGO_API_USER}/g" ${MDCS_TARGET_PATH}/mdcs/settings.py |
+sed -e "s/mgi_password/${MDCS_MONGO_API_PWD}/g" > $tmpFile
 cp ${tmpFile} ${MDCS_TARGET_PATH}/mdcs/settings.py
 
 
