@@ -104,7 +104,7 @@ chown ${MDCS_USER}:${MDCS_USER} ${MDCS_HOME}/.bash_profile
 echo -e '#!/usr/bin/env python\nimport shortuuid\nprint(shortuuid.ShortUUID().random(length=22))\n' > ${MDCS_INSTALLER_PATH}/getuuid.py
 chmod a+x ${MDCS_INSTALLER_PATH}/getuuid.py
 
-export MDCS_MONGO_DB_PATH=${MDCS_USER}/data/db
+export MDCS_MONGO_DB_PATH=${MDCS_HOME}/data/db
 export MDCS_MONGO_ADMIN_USER=admin_$(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/getuuid.py") # friends don't let friends set default userids and passwords
 export MDCS_MONGO_ADMIN_PWD=$(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/getuuid.py")
 export MDCS_MONGO_API_USER=user_$(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/getuuid.py")
@@ -139,10 +139,14 @@ mkdir -p ${MDCS_MONGO_DB_PATH}
 chown mongodb:mongodb ${MDCS_MONGO_DB_PATH}
 curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/${MDCS_INSTALL_BRANCH}/contrib/install/mongo/mongoConfig > /etc/mongod.conf
 
+cat /etc/mongod.conf
+
 export tmpFile=$(mktemp)
+
 echo 'Updating mongo config using temporary work file: ' $tmpFile
-sed -e "s/\$\{MDCS_MONGO_PORT\}/${MDCS_MONGO_PORT}/g" /etc/mongod.conf |
-sed -e "s/\$\{MDCS_MONGO_DB_PATH\}/${MDCS_MONGO_DB_PATH}/g"   |
+# note: sed can use , instead of / for delimiting substitutions which works well when data contains slashes e.g. directory paths
+sed -e 's,${MDCS_MONGO_PORT},'${MDCS_MONGO_PORT}',g' /etc/mongod.conf |
+sed -e 's,${MDCS_MONGO_DB_PATH},'${MDCS_MONGO_DB_PATH}',g'   |
 sed -r '/^\s*$/d' > $tmpFile  # GNU sed extension to remove blank lines
 cp ${tmpFile} /etc/mongod.conf
 
