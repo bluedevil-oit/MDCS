@@ -167,8 +167,8 @@ while [[ $? -ne 0 ]]; do
 done
 
 
-(su - ${MDCS_USER} -c "./${MDCS_INSTALLER_PATH}/mongoSetupAdminUser.sh")
-(su - ${MDCS_USER} -c "./${MDCS_INSTALLER_PATH}/mongoSetupApiUser.sh")
+(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/mongoSetupAdminUser.sh")
+(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/mongoSetupApiUser.sh")
 
 apt-get install -y gettext
 apt-get install -y build-essential
