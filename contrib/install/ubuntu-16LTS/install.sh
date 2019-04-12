@@ -91,9 +91,9 @@ fi
 pip install virtualenv
 (su - ${MDCS_USER} -c "virtualenv ${MDCS_VENV}")
 echo "source ${MDCS_HOME}/${MDCS_VENV}/bin/activate" >> ${MDCS_HOME}/.bashrc
-echo "source ${MSCS_VARS} >> ${MDCS_HOME}/.bashrc
+echo "source ${MSCS_VARS}" >> ${MDCS_HOME}/.bashrc
 echo "source ${MDCS_HOME}/${MDCS_VENV}/bin/activate" >> ${MDCS_HOME}/.bash_profile
-echo "source ${MSCS_VARS} >> ${MDCS_HOME}/.bash_profile
+echo "source ${MSCS_VARS}" >> ${MDCS_HOME}/.bash_profile
 
 chown ${MDCS_USER}:${MDCS_USER} ${MDCS_HOME}/.bashrc
 chown ${MDCS_USER}:${MDCS_USER} ${MDCS_HOME}/.bash_profile
@@ -101,16 +101,16 @@ chown ${MDCS_USER}:${MDCS_USER} ${MDCS_HOME}/.bash_profile
 (su - ${MDCS_USER} -c "pip install --upgrade pip")
 (su - ${MDCS_USER} -c "pip install shortuuid")
 
-echo -e "#!/usr/bin/env python\nimport shortuuid\nprint(shortuuid.ShortUUID.random(length=22))\n" > ${MDCS_INSTALL_PATH}/getuuid.py
-chmod a+x ${MDCS_INSTALL_PATH}/getuuid.py
+echo -e '#!/usr/bin/env python\nimport shortuuid\nprint(shortuuid.ShortUUID.random(length=22))\n' > ${MDCS_INSTALLER_PATH}/getuuid.py
+chmod a+x ${MDCS_INSTALLER_PATH}/getuuid.py
 
-export MDCS_MONGO_DB_PATH=${MDCS_TARGET_PATH}/data/db
-export MDCS_MONGO_ADMIN_USER=$(admin_${MDCS_INSTALL_PATH}/getuuid.py) # friends don't let friends set default userids and passwords
-export MDCS_MONGO_ADMIN_PWD=$(${MDCS_INSTALL_PATH}/getuuid.py)
-export MDCS_MONGO_API_USER=$(user_${MDCS_INSTALL_PATH}/getuuid.py)
-export MDCS_MONGO_API_PWD=$(${MDCS_INSTALL_PATH}/getuuid.py)
-export MDCS_ADMIN_USER_NAME=$(super_${MDCS_INSTALL_PATH}/getuuid.py)
-export MDCS_ADMIN_USER_PWD=$(${MDCS_INSTALL_PATH}/getuuid.py)
+export MDCS_MONGO_DB_PATH=${MDCS_USER}/data/db
+export MDCS_MONGO_ADMIN_USER=admin_$(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/getuuid.py") # friends don't let friends set default userids and passwords
+export MDCS_MONGO_ADMIN_PWD=$(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/getuuid.py")
+export MDCS_MONGO_API_USER=user_$(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/getuuid.py")
+export MDCS_MONGO_API_PWD=$(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/getuuid.py")
+export MDCS_ADMIN_USER_NAME=super_$(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/getuuid.py")
+export MDCS_ADMIN_USER_PWD=$(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/getuuid.py")
 
 # write the variables created to the mdcs_vars file so the mdcs user knows them at login
 echo export MDCS_USER=${MDCS_USER} >> ${MDCS_VARS}
@@ -153,7 +153,7 @@ systemctl start mongod
 chmod a+x ${MDCS_INSTALLER_PATH}/mongoSetupAdminUser.sh
 
 (su ${MDCS_USER} -c "curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/${MDCS_INSTALL_BRANCH}/contrib/install/mongo/mongoSetupApiUser.sh > ${MDCS_INSTALLER_PATH}/mongoSetupApiUser.sh")
-chmod a+x ${MDCS_INSTALLER_PATH}/mongoSetupAdminUser.sh
+chmod a+x ${MDCS_INSTALLER_PATH}/mongoSetupApiUser.sh
 
 echo -e "\n" | nc localhost ${MDCS_MONGO_PORT}
 while [[ $? -ne 0 ]]; do
@@ -187,4 +187,6 @@ chmod a+x ${MDCS_INSTALLER_PATH}/install_mdcs.sh
 # install apache, wsgi and configure wsgi for mdcs
 
 
+echo if you would like to login as ${MDCS_USER} from the ubuntu login page, execute "sudo passwd ${MDCS_USER}" and set a password to use from the login page
+echo Otherwise you should be able to get into the ${MDCS_USER} environment from teh console using "sudo su - ${MDCS_USER}"
 
