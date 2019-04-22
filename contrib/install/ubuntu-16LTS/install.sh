@@ -42,7 +42,7 @@ if [[ -z ${MDCS_HOME_PARENT_DIR} ]]; then
 fi
 
 if [[ -z ${MDCS_MONGO_PORT} ]]; then
-  export MSCS_MONGO_PORT="27017"
+  export MDCS_MONGO_PORT="27017"
 fi
 
 
@@ -122,6 +122,7 @@ echo export MDCS_TARGET_PATH=${MDCS_TARGET_PATH} >> ${MDCS_VARS}
 echo export MDCS_INSTALL_PATH=${MDCS_TARGET_PATH} >> ${MDCS_VARS}
 echo export MDCS_VENV=${MDCS_VENV} >> ${MDCS_VARS}
 echo export MDCS_MONGO_DB_PATH=${MDCS_MONGO_DB_PATH} >> ${MDCS_VARS}
+echo export MDCS_MONGO_PORT=${MDCS_MONGO_PORT} >> ${MDCS_VARS}
 echo export MDCS_MONGO_ADMIN_USER=${MDCS_MONGO_ADMIN_USER} >> ${MDCS_VARS}
 echo export MDCS_MONGO_ADMIN_PWD=${MDCS_MONGO_ADMIN_PWD} >> ${MDCS_VARS}
 echo export MDCS_MONGO_API_USER=${MDCS_MONGO_API_USER} >> ${MDCS_VARS}
@@ -180,15 +181,16 @@ pushd redis-stable
 make install
 popd
 
-# ensure redis service installed and enabled
-systemctl enable redis
-systemctl restart redis
+# TODO ensure redis service installed and enabled
+# systemctl enable redis
+# systemctl restart redis
+echo "WARNING: NOT enabling redis for systemd and it will not start on reboots"
 
 (su ${MDCS_USER} -c "curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/${MDCS_INSTALL_BRANCH}/contrib/install/ubuntu-16LTS/install_mdcs.sh > ${MDCS_INSTALLER_PATH}/install_mdcs.sh")
 chmod a+x ${MDCS_INSTALLER_PATH}/install_mdcs.sh
 (su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/install_mdcs.sh")
 
-# install apache, wsgi and configure wsgi for mdcs
+# TODO install apache, wsgi and configure wsgi for mdcs
 
 
 echo if you would like to login as ${MDCS_USER} from the ubuntu login page, execute \"sudo passwd ${MDCS_USER}\" and set a password to use from the login page
