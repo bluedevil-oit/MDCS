@@ -29,10 +29,10 @@ sed -e "s/mgi_user/${MDCS_MONGO_API_USER}/g" ${MDCS_TARGET_PATH}/mdcs/settings.p
 sed -e "s/mgi_password/${MDCS_MONGO_API_PWD}/g" > $tmpFile
 cp ${tmpFile} ${MDCS_TARGET_PATH}/mdcs/settings.py
 
-python manage.py migrate auth
-python manage.py migrate
-python manage.py collectstatic --noinput
-python manage.py compilemessages
+#python manage.py migrate auth
+#python manage.py migrate
+#python manage.py collectstatic --noinput
+#python manage.py compilemessages
 
 # https://stackoverflow.com/a/42812446
-./manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser(\"${MDCS_ADMIN_USER_NAME}\", \"${MDCS_ADMIN_EMAIL}\", \"${MDCS_ADMIN_USER_PWD}\")"
+#./manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser(\"${MDCS_ADMIN_USER_NAME}\", \"${MDCS_ADMIN_EMAIL}\", \"${MDCS_ADMIN_USER_PWD}\")"

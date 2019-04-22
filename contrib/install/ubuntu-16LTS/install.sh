@@ -107,6 +107,8 @@ chmod a+x ${MDCS_INSTALLER_PATH}/getuuid.py
 export MDCS_MONGO_DB_PATH=${MDCS_HOME}/data/db
 export MDCS_MONGO_ADMIN_USER=admin_$(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/getuuid.py") # friends don't let friends set default userids and passwords
 export MDCS_MONGO_ADMIN_PWD=$(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/getuuid.py")
+export MDCS_MONGO_OWNER_USER=owner_$(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/getuuid.py")
+export MDCS_MONGO_OWNER_PWD=$(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/getuuid.py")
 export MDCS_MONGO_API_USER=user_$(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/getuuid.py")
 export MDCS_MONGO_API_PWD=$(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/getuuid.py")
 export MDCS_ADMIN_USER_NAME=super_$(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/getuuid.py")
@@ -125,6 +127,8 @@ echo export MDCS_MONGO_DB_PATH=${MDCS_MONGO_DB_PATH} >> ${MDCS_VARS}
 echo export MDCS_MONGO_PORT=${MDCS_MONGO_PORT} >> ${MDCS_VARS}
 echo export MDCS_MONGO_ADMIN_USER=${MDCS_MONGO_ADMIN_USER} >> ${MDCS_VARS}
 echo export MDCS_MONGO_ADMIN_PWD=${MDCS_MONGO_ADMIN_PWD} >> ${MDCS_VARS}
+echo export MDCS_MONGO_OWNER_USER=${MDCS_MONGO_OWNER_USER} >> ${MDCS_VARS}
+echo export MDCS_MONGO_OWNER_PWD=${MDCS_MONGO_OWNER_PWD} >> ${MDCS_VARS}
 echo export MDCS_MONGO_API_USER=${MDCS_MONGO_API_USER} >> ${MDCS_VARS}
 echo export MDCS_MONGO_API_PWD=${MDCS_MONGO_API_PWD} >> ${MDCS_VARS}
 echo export MDCS_ADMIN_USER_NAME=${MDCS_ADMIN_USER_NAME} >> ${MDCS_VARS}
