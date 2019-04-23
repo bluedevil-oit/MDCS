@@ -218,7 +218,7 @@ systemctl enable redis
 systemctl restart redis
 
 
-(su ${MDCS_USER} -c "curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/${MDCS_INSTALL_BRANCH}/contrib/install/ubuntu-16LTS/install_mdcs.sh > ${MDCS_INSTALLER_PATH}/install_mdcs.sh")
+(su ${MDCS_USER} -c "curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/${MDCS_INSTALL_BRANCH}/contrib/install/${MDCS_INSTALL_DIST}/install_mdcs.sh > ${MDCS_INSTALLER_PATH}/install_mdcs.sh")
 
 # ensure that celery service is running before installing/starting mdcs
 # letting celery run as mdcs user for access to environment
