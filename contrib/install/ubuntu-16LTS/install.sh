@@ -213,12 +213,17 @@ popd
 
 # create redis user and group
 useradd --shell /bin/true -M -U redis # no home directory and no shell
-# TODO install redis.conf
 curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/${MDCS_INSTALL_BRANCH}/contrib/install/${MDCS_INSTALL_DIST}/redis.service > /etc/systemd/system/redis.service
-cp ${MDCS_INSTALLER_PATH}/redis.service /etc/systemd/system
 
 mkdir /etc/redis
 chown -R redis:redis /etc/redis
+
+mkdir -p /var/lib/redis
+chown -R redis:redis /var/lib/redis
+
+mkdir -p /var/run/redis
+chown -R redis:redis /var/run/redis
+
 curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/${MDCS_INSTALL_BRANCH}/contrib/install/${MDCS_INSTALL_DIST}/redis.conf > /etc/redis/redis.conf
 
 systemctl enable redis
