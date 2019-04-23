@@ -240,7 +240,7 @@ systemctl restart redis
 ## END OVERRIDE
 
 (su - ${MDCS_USER} -c "cd ${MDCS_TARGET_DIR}; pip install -e git://github.com/MongoEngine/django-mongoengine.git@v0.2.1#egg=django-mongoengine; pip install --no-cache-dir -r requirements.txt; pip install --no-cache-dir -r requirements.core.txt")
-(su - ${MDCS_USER} -c "cp ${MDCS_TARGET_DIR}/contrib/install/${MDCS_INSTALL_DIST}/runcelery.sh ${MDCS_HOME}"
+(su - ${MDCS_USER} -c "cp ${MDCS_TARGET_DIR}/contrib/install/${MDCS_INSTALL_DIST}/runcelery.sh ${MDCS_HOME}")
 # cannot install celery service until celery is installed via requirements.txt
 # ensure that celery service is running before installing/starting mdcs
 # letting celery run as mdcs user for access to environment
@@ -287,6 +287,5 @@ chmod a+x ${MDCS_INSTALLER_PATH}/install_mdcs.sh
 
 # TODO install apache, wsgi and configure wsgi for mdcs
 
-echo if you would like to login as ${MDCS_USER} from the ubuntu login page, execute \"sudo passwd ${MDCS_USER}\" and set a password to use from the login page
-echo Otherwise you should be able to get into the ${MDCS_USER} environment from the console using \"sudo su - ${MDCS_USER}\"
-
+echo "if you would like to login as ${MDCS_USER} from the ubuntu login page, execute \"sudo passwd ${MDCS_USER}\" and set a password to use from the login page"
+echo "Otherwise you should be able to get into the ${MDCS_USER} environment from the console using \"sudo su - ${MDCS_USER}\""
