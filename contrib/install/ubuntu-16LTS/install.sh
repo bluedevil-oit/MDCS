@@ -120,6 +120,7 @@ export MDCS_CELERY_APP=${MDCS_USER}
 export MDCS_CELERY_NODES="worker"
 export MDCS_CELERY_OPTS=""
 export MDCS_CELERY_BIN="${MDCS_HOME}/${MDCS_VENV}/bin/celery"
+export MDCS_CELERY_SCRIPT="${MDCS_HOME}/runcelery.sh"
 export MDCS_CELERY_PID_FILE="${MDCS_HOME}/${MDCS_VENV}/var/run/celery/%n.pid"
 export MDCS_CELERY_LOG_FILE="${MDCS_HOME}/${MDCS_VENV}/var/log/celery/%n%I.log"
 export MDCS_CELERY_LOG_LEVEL="INFO"
@@ -154,6 +155,7 @@ echo export MDCS_CELERY_APP=${MDCS_CELERY_APP} >> ${MDCS_VARS}
 echo export MDCS_CELERY_NODES=${MDCS_CELERY_NODES} >> ${MDCS_VARS}
 echo export MDCS_CELERY_OPTS=${MDCS_CELERY_OPTS} >> ${MDCS_VARS}
 echo export MDCS_CELERY_BIN=${MDCS_CELERY_BIN} >> ${MDCS_VARS}
+echo export MDCS_CELERY_SCRIPT=${MDCS_CELERY_SCRIPT} >> ${MDCS_VARS}
 echo export MDCS_CELERY_PID_FILE=${MDCS_CELERY_PID_FILE} >> ${MDCS_VARS}
 echo export MDCS_CELERY_LOG_FILE=${MDCS_CELERY_LOG_FILE} >> ${MDCS_VARS}
 echo export MDCS_CELERY_LOG_LEVEL=${MDCS_CELERY_LOG_LEVEL} >> ${MDCS_VARS}
@@ -238,7 +240,7 @@ systemctl restart redis
 ## END OVERRIDE
 
 (su - ${MDCS_USER} -c "cd ${MDCS_TARGET_DIR}; pip install -e git://github.com/MongoEngine/django-mongoengine.git@v0.2.1#egg=django-mongoengine; pip install --no-cache-dir -r requirements.txt; pip install --no-cache-dir -r requirements.core.txt")
-
+(su - ${MDCS_USER} -c "cp ${MDCS_TARGET_DIR}/contrib/install/${MDCS_INSTALL_DIST}/runcelery.sh ${MDCS_HOME}"
 # cannot install celery service until celery is installed via requirements.txt
 # ensure that celery service is running before installing/starting mdcs
 # letting celery run as mdcs user for access to environment
@@ -248,6 +250,7 @@ echo 'Updating /etc/systemd/system/celery.service using temporary work file: ' $
 sed -e 's,${MDCS_VARS},'${MDCS_VARS}',g' /etc/systemd/system/celery.service |
 sed -e 's,${MDCS_USER},'${MDCS_USER}',g'   |
 sed -e 's,${MDCS_CELERY_BIN},'${MDCS_CELERY_BIN}',g'   |
+sed -e 's,${MDCS_CELERY_SCRIPT},'${MDCS_CELERY_SCRIPT}',g'   |
 sed -e 's,${MDCS_CELERY_NODES},'${MDCS_CELERY_NODES}',g'   |
 sed -e 's,${MDCS_CELERY_APP},'${MDCS_CELERY_APP}',g'   |
 sed -e 's,${MDCS_CELERY_WORKDIR},'${MDCS_CELERY_WORKDIR}',g'   |
@@ -263,6 +266,7 @@ echo 'Updating /etc/systemd/system/celerybeat.service using temporary work file:
 sed -e 's,${MDCS_VARS},'${MDCS_VARS}',g' /etc/systemd/system/celerybeat.service |
 sed -e 's,${MDCS_USER},'${MDCS_USER}',g'   |
 sed -e 's,${MDCS_CELERY_BIN},'${MDCS_CELERY_BIN}',g'   |
+sed -e 's,${MDCS_CELERY_SCRIPT},'${MDCS_CELERY_SCRIPT}',g'   |
 sed -e 's,${MDCS_CELERY_APP},'${MDCS_CELERY_APP}',g'   |
 sed -e 's,${MDCS_CELERYBEAT_PID_FILE},'${MDCS_CELERYBEAT_PID_FILE}',g'   |
 sed -e 's,${MDCS_CELERYBEAT_LOG_FILE},'${MDCS_CELERYBEAT_LOG_FILE}',g'   |

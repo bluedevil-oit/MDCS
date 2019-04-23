@@ -8,12 +8,12 @@ User=${MDCS_USER}
 Group=${MDCS_USER}
 EnvironmentFile=-${MDCS_VARS}
 WorkingDirectory=${MDCS_CELERY_WORKDIR}
-ExecStart=/bin/sh -c "${MDCS_CELERY_BIN} multi start ${MDCS_CELERY_NODES} \
+ExecStart=/bin/sh -c "${MDCS_CELERY_SCRIPT} multi start ${MDCS_CELERY_NODES} \
 	-A ${MDCS_CELERY_APP} --pidfile=${MDCS_CELERY_PID_FILE} --logfile=${MDCS_CELERY_LOG_FILE} \
 	--loglevel="${MDCS_CELERY_LOG_LEVEL}" ${MDCS_CELERY_OPTS}"
-ExecStop=/bin/sh -c "${MDCS_CELERY_BIN} multi stopwait ${MDCS_CELERY_NODES} \
+ExecStop=/bin/sh -c "${MDCS_CELERY_SCRIPT} multi stopwait ${MDCS_CELERY_NODES} \
 	--pidfile=${MDCS_CELERY_PID_FILE}"
-ExecReload=/bin/sh -c "${MDCS_CELERY_BIN} multi restart ${MDCS_CELERY_NODES} \
+ExecReload=/bin/sh -c "${MDCS_CELERY_SCRIPT} multi restart ${MDCS_CELERY_NODES} \
 	-A ${MDCS_CELERY_APP} --pidfile=${MDCS_CELERY_PID_FILE} --logfile=${MDCS_CELERY_LOG_FILE} \
 	--loglevel="${MDCS_CELERY_LOG_LEVEL}" ${MDCS_CELERY_OPTS}"
 

@@ -8,7 +8,7 @@ User=${MDCS_USER}
 Group=${MDCS_USER}
 EnvironmentFile=-${MDCS_VARS}
 WorkingDirectory=/opt/celery
-ExecStart=/bin/sh -c '${MDCS_CELERY_BIN} beat  \
+ExecStart=/bin/sh -c '${MDCS_CELERY_SCRIPT} beat  \
     -A ${MDCS_CELERY_APP} --pidfile=${MDCS_CELERYBEAT_PID_FILE} \
     --logfile=${MDCS_CELERYBEAT_LOG_FILE} --loglevel=${MDCS_CELERY_LOG_LEVEL}'
 
