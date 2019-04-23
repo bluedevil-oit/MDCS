@@ -9,7 +9,7 @@ fi
 
 # install/configure MDCS
 
-
+cd ${MDCS_TARGET_DIR}
 
 # update MDCS to mongo connection info
 export tmpFile=$(mktemp)

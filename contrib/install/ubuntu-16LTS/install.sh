@@ -125,8 +125,10 @@ export MDCS_CELERY_LOG_FILE="${MDCS_HOME}/${MDCS_VENV}/var/log/celery/%n%I.log"
 export MDCS_CELERY_LOG_LEVEL="INFO"
 export MDCS_CELERYBEAT_PID_FILE="${MDCS_HOME}/${MDCS_VENV}/var/run/celery/beat.pid"
 export MDCS_CELERYBEAT_LOG_FILE="${MDCS_HOME}/${MDCS_VENV}/var/log/celery/beat.log"
+export MDCS_CELERY_WORKDIR="${MDCS_HOME}/${MDCS_VENV}/opt/celery"
 (su - ${MDCS_USER} -c "mkdir -p ${MDCS_HOME}/${MDCS_VENV}/var/run")
 (su - ${MDCS_USER} -c "mkdir -p ${MDCS_HOME}/${MDCS_VENV}/var/log")
+(su - ${MDCS_USER} -c "mkdir -p ${MDCS_HOME}/${MDCS_VENV}/opt/celery")
 
 # write the variables created to the mdcs_vars file so the mdcs user knows them at login
 echo export MDCS_INSTALL_DIST=${MDCS_INSTALL_DIST} >> ${MDCS_VARS}
@@ -157,6 +159,7 @@ echo export MDCS_CELERY_LOG_FILE=${MDCS_CELERY_LOG_FILE} >> ${MDCS_VARS}
 echo export MDCS_CELERY_LOG_LEVEL=${MDCS_CELERY_LOG_LEVEL} >> ${MDCS_VARS}
 echo export MDCS_CELERYBEAT_PID_FILE=${MDCS_CELERYBEAT_PID_FILE} >> ${MDCS_VARS}
 echo export MDCS_CELERYBEAT_LOG_FILE=${MDCS_CELERYBEAT_LOG_FILE} >> ${MDCS_VARS}
+echo export MDCS_CELERY_WORKDIR=${MDCS_CELERY_WORKDIR} >> ${MDCS_VARS}
 
 # install mongo
 echo 'installing mongo (NOTE: installing 3.6)'
@@ -195,7 +198,6 @@ while [[ $? -ne 0 ]]; do
   echo -e "\n" | nc localhost ${MDCS_MONGO_PORT}
 done
 
-
 (su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/mongoSetupAdminUser.sh")
 (su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/mongoSetupApiUser.sh")
 
@@ -212,8 +214,12 @@ popd
 # create redis user and group
 useradd --shell /bin/true -M -U redis # no home directory and no shell
 # TODO install redis.conf
-(su ${MDCS_USER} -c "curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/${MDCS_INSTALL_BRANCH}/contrib/install/${MDCS_INSTALL_DIST}/redis.service > ${MDCS_INSTALLER_PATH}/redis.service")
+curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/${MDCS_INSTALL_BRANCH}/contrib/install/${MDCS_INSTALL_DIST}/redis.service > /etc/systemd/system/redis.service
 cp ${MDCS_INSTALLER_PATH}/redis.service /etc/systemd/system
+
+mkdir /etc/redis
+chown -R redis:redis /etc/redis
+curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/${MDCS_INSTALL_BRANCH}/contrib/install/${MDCS_INSTALL_DIST}/redis.conf > /etc/redis/redis.conf
 
 systemctl enable redis
 systemctl restart redis
