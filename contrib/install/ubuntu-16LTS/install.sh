@@ -212,14 +212,23 @@ popd
 # create redis user and group
 useradd --shell /bin/true -M -U redis # no home directory and no shell
 # TODO install redis.conf
-cp ${MDCS_TARGET_PATH}/contrib/install/${MDCS_INSTALL_DIST}/redis.service /etc/systemd/system
+(su ${MDCS_USER} -c "curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/${MDCS_INSTALL_BRANCH}/contrib/install/${MDCS_INSTALL_DIST}/redis.service > ${MDCS_INSTALLER_PATH}/redis.service")
+cp ${MDCS_INSTALLER_PATH}/redis.service /etc/systemd/system
 
 systemctl enable redis
 systemctl restart redis
 
 
-(su ${MDCS_USER} -c "curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/${MDCS_INSTALL_BRANCH}/contrib/install/${MDCS_INSTALL_DIST}/install_mdcs.sh > ${MDCS_INSTALLER_PATH}/install_mdcs.sh")
+(su - ${MDCS_USER} -c "git clone -b ${MDCS_INSTALL_BRANCH} https://github.com/${MDCS_INSTALL_FORK}/MDCS.git ${MDCS_TARGET_DIR}")
 
+## NOTE: TEMPORARY OVERRIDE! Since only 2.0.1 components are published, we force the requirements lists to 2.0.1 level
+(su - ${MDCS_USER} -c "curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/2.0.1/requirements.txt > ${MDCS_TARGET_DIR}/requirements.txt")
+(su - ${MDCS_USER} -c "curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/2.0.1/requirements.core.txt > ${MDCS_TARGET_DIR}/requirements.core.txt")
+## END OVERRIDE
+
+(su - ${MDCS_USER} -c "cd ${MDCS_TARGET_DIR}; pip install -e git://github.com/MongoEngine/django-mongoengine.git@v0.2.1#egg=django-mongoengine; pip install --no-cache-dir -r requirements.txt; pip install --no-cache-dir -r requirements.core.txt")
+
+# cannot install celery service until celery is installed via requirements.txt
 # ensure that celery service is running before installing/starting mdcs
 # letting celery run as mdcs user for access to environment
 cp ${MDCS_TARGET_PATH}/contrib/install/${MDCS_INSTALL_DIST}/celery.service /etc/systemd/system
@@ -238,6 +247,8 @@ systemctl enable celery
 systemctl restart celery
 systemctl enable celerybeat
 systemctl restart celerybeat
+
+(su ${MDCS_USER} -c "curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/${MDCS_INSTALL_BRANCH}/contrib/install/${MDCS_INSTALL_DIST}/install_mdcs.sh > ${MDCS_INSTALLER_PATH}/install_mdcs.sh")
 
 # install and configure mdcs
 chmod a+x ${MDCS_INSTALLER_PATH}/install_mdcs.sh
