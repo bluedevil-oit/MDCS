@@ -250,6 +250,7 @@ sed -e 's,${MDCS_USER},'${MDCS_USER}',g'   |
 sed -e 's,${MDCS_CELERY_BIN},'${MDCS_CELERY_BIN}',g'   |
 sed -e 's,${MDCS_CELERY_NODES},'${MDCS_CELERY_NODES}',g'   |
 sed -e 's,${MDCS_CELERY_APP},'${MDCS_CELERY_APP}',g'   |
+sed -e 's,${MDCS_CELERY_WORKDIR},'${MDCS_CELERY_WORKDIR}',g'   |
 sed -e 's,${MDCS_CELERY_PID_FILE},'${MDCS_CELERY_PID_FILE}',g'   |
 sed -e 's,${MDCS_CELERY_LOG_FILE},'${MDCS_CELERY_LOG_FILE}',g'   |
 sed -e 's,${MDCS_CELERY_LOG_LEVEL},'${MDCS_CELERY_LOG_LEVEL}',g'   |
