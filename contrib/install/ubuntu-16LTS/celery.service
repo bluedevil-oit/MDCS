@@ -1,0 +1,21 @@
+[Unit]
+Description=Celery Service
+After=network.target
+
+[Service]
+Type=forking
+User=${MDCS_USER}
+Group=${MDCS_USER}
+EnvironmentFile=-${MDCS_VARS}
+WorkingDirectory=${MDCS_CELERY_WORKDIR}
+ExecStart=/bin/sh -c '${MDCS_CELERY_BIN} multi start ${MDCS_CELERY_NODES} \
+	-A $CELERY_APP --pidfile=${MDCS_CELERY_PID_FILE} --logfile=${MDCS_CELERY_LOG_FILE} \
+	--loglevel="${MDCS_CELERY_LOG_LEVEL}" ${MDCS_CELERY_OPTS}'
+ExecStop=/bin/sh -c '${MDCS_CELERY_BIN} multi stopwait ${MDCS_CELERY_NODES} \
+	--pidfile=${MDCS_CELERY_PID_FILE}'
+ExecReload=/bin/sh -c '${MDCS_CELERY_BIN} multi restart ${MDCS_CELERY_NODES} \
+	-A $CELERY_APP --pidfile=${MDCS_CELERY_PID_FILE} --logfile=${MDCS_CELERY_LOG_FILE} \
+	--loglevel="${MDCS_CELERY_LOG_LEVEL}" ${MDCS_CELERY_OPTS}'
+
+[Install]
+WantedBy=multi-user.target

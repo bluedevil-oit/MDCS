@@ -14,11 +14,14 @@
 
 # export mdcspw=""
 
+export MDCS_INSTALL_DIST="ubuntu-16LTS"
+
 # not handling upgrades yet, so the following lines are disabled
 #if [[ -z ${MONGO_DUMP_DOWNLOAD_LOCATION} ]] ; then
 #  echo 'Export MONGO_DUMP_DOWNLOAD_LOCATION before running installer'
 #  exit
 #fi
+
 
 if [[ -z ${MDCS_INSTALL_FORK} ]]; then
   echo 'Export MDCS_INSTALL_FORK before running installer'
@@ -113,8 +116,20 @@ export MDCS_MONGO_API_USER=user_$(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/g
 export MDCS_MONGO_API_PWD=$(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/getuuid.py")
 export MDCS_ADMIN_USER_NAME=super_$(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/getuuid.py")
 export MDCS_ADMIN_USER_PWD=$(su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/getuuid.py")
+export MDCS_CELERY_APP=${MDCS_USER}
+export MDCS_CELERY_NODES="worker"
+export MDCS_CELERY_OPTS=""
+export MDCS_CELERY_BIN="${MDCS_HOME}/${MDCS_VENV}/bin/celery"
+export MDCS_CELERY_PID_FILE="${MDCS_HOME}/${MDCS_VENV}/var/run/celery/%n.pid"
+export MDCS_CELERY_LOG_FILE="${MDCS_HOME}/${MDCS_VENV}/var/log/celery/%n%I.log"
+export MDCS_CELERY_LOG_LEVEL="INFO"
+export MDCS_CELERYBEAT_PID_FILE="${MDCS_HOME}/${MDCS_VENV}/var/run/celery/beat.pid"
+export MDCS_CELERYBEAT_LOG_FILE="${MDCS_HOME}/${MDCS_VENV}/var/log/celery/beat.log"
+(su - ${MDCS_USER} -c "mkdir -p ${MDCS_HOME}/${MDCS_VENV}/var/run")
+(su - ${MDCS_USER} -c "mkdir -p ${MDCS_HOME}/${MDCS_VENV}/var/log")
 
 # write the variables created to the mdcs_vars file so the mdcs user knows them at login
+echo export MDCS_INSTALL_DIST=${MDCS_INSTALL_DIST} >> ${MDCS_VARS}
 echo export MDCS_USER=${MDCS_USER} >> ${MDCS_VARS}
 echo export MDCS_HOME=${MDCS_HOME} >> ${MDCS_VARS}
 echo export MDCS_INSTALL_FORK=${MDCS_INSTALL_FORK} >> ${MDCS_VARS}
@@ -133,6 +148,15 @@ echo export MDCS_MONGO_API_USER=${MDCS_MONGO_API_USER} >> ${MDCS_VARS}
 echo export MDCS_MONGO_API_PWD=${MDCS_MONGO_API_PWD} >> ${MDCS_VARS}
 echo export MDCS_ADMIN_USER_NAME=${MDCS_ADMIN_USER_NAME} >> ${MDCS_VARS}
 echo export MDCS_ADMIN_USER_PWD=${MDCS_ADMIN_USER_PWD} >> ${MDCS_VARS}
+echo export MDCS_CELERY_APP=${MDCS_CELERY_APP} >> ${MDCS_VARS}
+echo export MDCS_CELERY_NODES=${MDCS_CELERY_NODES} >> ${MDCS_VARS}
+echo export MDCS_CELERY_OPTS=${MDCS_CELERY_OPTS} >> ${MDCS_VARS}
+echo export MDCS_CELERY_BIN=${MDCS_CELERY_BIN} >> ${MDCS_VARS}
+echo export MDCS_CELERY_PID_FILE=${MDCS_CELERY_PID_FILE} >> ${MDCS_VARS}
+echo export MDCS_CELERY_LOG_FILE=${MDCS_CELERY_LOG_FILE} >> ${MDCS_VARS}
+echo export MDCS_CELERY_LOG_LEVEL=${MDCS_CELERY_LOG_LEVEL} >> ${MDCS_VARS}
+echo export MDCS_CELERYBEAT_PID_FILE=${MDCS_CELERYBEAT_PID_FILE} >> ${MDCS_VARS}
+echo export MDCS_CELERYBEAT_LOG_FILE=${MDCS_CELERYBEAT_LOG_FILE} >> ${MDCS_VARS}
 
 # install mongo
 echo 'installing mongo (NOTE: installing 3.6)'
@@ -185,17 +209,42 @@ pushd redis-stable
 make install
 popd
 
-# TODO ensure redis service installed and enabled
-# systemctl enable redis
-# systemctl restart redis
-echo "WARNING: NOT enabling redis for systemd and it will not start on reboots"
+# create redis user and group
+useradd --shell /bin/true -M -U redis # no home directory and no shell
+# TODO install redis.conf
+cp ${MDCS_TARGET_PATH}/contrib/install/${MDCS_INSTALL_DIST}/redis.service /etc/systemd/system
+
+systemctl enable redis
+systemctl restart redis
+
 
 (su ${MDCS_USER} -c "curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/${MDCS_INSTALL_BRANCH}/contrib/install/ubuntu-16LTS/install_mdcs.sh > ${MDCS_INSTALLER_PATH}/install_mdcs.sh")
+
+# ensure that celery service is running before installing/starting mdcs
+# letting celery run as mdcs user for access to environment
+cp ${MDCS_TARGET_PATH}/contrib/install/${MDCS_INSTALL_DIST}/celery.service /etc/systemd/system
+export tmpFile=$(mktemp)
+echo 'Updating /etc/systemd/system/celery.service using temporary work file: ' $tmpFile
+sed -e 's,${MDCS_VARS},'${MDCS_VARS}',g' /etc/systemd/system/celery.service > $tmpFile
+cp ${tmpFile} /etc/systemd/system/celery.service
+
+cp ${MDCS_TARGET_PATH}/contrib/install/${MDCS_INSTALL_DIST}/celerybeat.service /etc/systemd/system
+export tmpFile=$(mktemp)
+echo 'Updating /etc/systemd/system/celerybeat.service using temporary work file: ' $tmpFile
+sed -e 's,${MDCS_VARS},'${MDCS_VARS}',g' /etc/systemd/system/celerybeat.service > $tmpFile
+cp ${tmpFile} /etc/systemd/system/celerybeat.service
+
+systemctl enable celery
+systemctl restart celery
+systemctl enable celerybeat
+systemctl restart celerybeat
+
+# install and configure mdcs
 chmod a+x ${MDCS_INSTALLER_PATH}/install_mdcs.sh
 (su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/install_mdcs.sh")
+(su - ${MDCS_USER} -c "ln -s ${MDCS_TARGET_PATH}/contrib/install/mongo/mongocli ${MDCS_HOME}/mongocli")
 
 # TODO install apache, wsgi and configure wsgi for mdcs
-
 
 echo if you would like to login as ${MDCS_USER} from the ubuntu login page, execute \"sudo passwd ${MDCS_USER}\" and set a password to use from the login page
 echo Otherwise you should be able to get into the ${MDCS_USER} environment from the console using \"sudo su - ${MDCS_USER}\"
