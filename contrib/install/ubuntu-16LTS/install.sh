@@ -245,13 +245,27 @@ systemctl restart redis
 cp ${MDCS_TARGET_PATH}/contrib/install/${MDCS_INSTALL_DIST}/celery.service /etc/systemd/system
 export tmpFile=$(mktemp)
 echo 'Updating /etc/systemd/system/celery.service using temporary work file: ' $tmpFile
-sed -e 's,${MDCS_VARS},'${MDCS_VARS}',g' /etc/systemd/system/celery.service > $tmpFile
+sed -e 's,${MDCS_VARS},'${MDCS_VARS}',g' /etc/systemd/system/celery.service |
+sed -e 's,${MDCS_USER},'${MDCS_USER}',g'   |
+sed -e 's,${MDCS_CELERY_BIN},'${MDCS_CELERY_BIN}',g'   |
+sed -e 's,${MDCS_CELERY_NODES},'${MDCS_CELERY_NODES}',g'   |
+sed -e 's,${MDCS_CELERY_APP},'${MDCS_CELERY_APP}',g'   |
+sed -e 's,${MDCS_CELERY_PID_FILE},'${MDCS_CELERY_PID_FILE}',g'   |
+sed -e 's,${MDCS_CELERY_LOG_FILE},'${MDCS_CELERY_LOG_FILE}',g'   |
+sed -e 's,${MDCS_CELERY_LOG_LEVEL},'${MDCS_CELERY_LOG_LEVEL}',g'   |
+sed -e 's,${MDCS_CELERY_OPTS},'${MDCS_CELERY_OPTS}',g'  > $tmpFile
 cp ${tmpFile} /etc/systemd/system/celery.service
 
 cp ${MDCS_TARGET_PATH}/contrib/install/${MDCS_INSTALL_DIST}/celerybeat.service /etc/systemd/system
 export tmpFile=$(mktemp)
 echo 'Updating /etc/systemd/system/celerybeat.service using temporary work file: ' $tmpFile
-sed -e 's,${MDCS_VARS},'${MDCS_VARS}',g' /etc/systemd/system/celerybeat.service > $tmpFile
+sed -e 's,${MDCS_VARS},'${MDCS_VARS}',g' /etc/systemd/system/celerybeat.service |
+sed -e 's,${MDCS_USER},'${MDCS_USER}',g'   |
+sed -e 's,${MDCS_CELERY_BIN},'${MDCS_CELERY_BIN}',g'   |
+sed -e 's,${MDCS_CELERY_APP},'${MDCS_CELERY_APP}',g'   |
+sed -e 's,${MDCS_CELERYBEAT_PID_FILE},'${MDCS_CELERYBEAT_PID_FILE}',g'   |
+sed -e 's,${MDCS_CELERYBEAT_LOG_FILE},'${MDCS_CELERYBEAT_LOG_FILE}',g'   |
+sed -e 's,${MDCS_CELERY_LOG_LEVEL},'${MDCS_CELERY_LOG_LEVEL}',g' > $tmpFile
 cp ${tmpFile} /etc/systemd/system/celerybeat.service
 
 systemctl enable celery
