@@ -128,8 +128,8 @@ export MDCS_CELERYBEAT_PID_FILE="${MDCS_HOME}/${MDCS_VENV}/var/run/celery/beat.p
 export MDCS_CELERYBEAT_LOG_FILE="${MDCS_HOME}/${MDCS_VENV}/var/log/celery/beat.log"
 #export MDCS_CELERY_WORKDIR="${MDCS_HOME}/${MDCS_VENV}/opt/celery"
 export MDCS_CELERY_WORKDIR="${MDCS_HOME}"
-(su - ${MDCS_USER} -c "mkdir -p ${MDCS_HOME}/${MDCS_VENV}/var/run")
-(su - ${MDCS_USER} -c "mkdir -p ${MDCS_HOME}/${MDCS_VENV}/var/log")
+(su - ${MDCS_USER} -c "mkdir -p ${MDCS_HOME}/${MDCS_VENV}/var/run/celery")
+(su - ${MDCS_USER} -c "mkdir -p ${MDCS_HOME}/${MDCS_VENV}/var/log/celery")
 (su - ${MDCS_USER} -c "mkdir -p ${MDCS_HOME}/${MDCS_VENV}/opt/celery")
 
 # write the variables created to the mdcs_vars file so the mdcs user knows them at login
