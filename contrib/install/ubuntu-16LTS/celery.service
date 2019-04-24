@@ -6,7 +6,8 @@ After=network.target
 Type=forking
 User=${MDCS_USER}
 Group=${MDCS_USER}
-EnvironmentFile=-${MDCS_VARS}
+# EnvironmentFile=-${MDCS_VARS}
+# PassEnvironment=VAR1 VAR2
 WorkingDirectory=${MDCS_CELERY_WORKDIR}
 ExecStart=/bin/sh -c "${MDCS_CELERY_SCRIPT} multi start ${MDCS_CELERY_NODES} \
 	-A ${MDCS_CELERY_APP} --pidfile=${MDCS_CELERY_PID_FILE} --logfile=${MDCS_CELERY_LOG_FILE} \
