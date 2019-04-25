@@ -286,13 +286,14 @@ chmod a+x ${MDCS_INSTALLER_PATH}/install_mdcs.sh
 (su - ${MDCS_USER} -c "${MDCS_INSTALLER_PATH}/install_mdcs.sh")
 (su - ${MDCS_USER} -c "ln -s ${MDCS_TARGET_PATH}/contrib/install/mongo/mongocli ${MDCS_HOME}/mongocli")
 
-# TODO install apache, wsgi and configure wsgi for mdcs
+# install apache, wsgi and configure wsgi for mdcs
 apt-get install -y apache2
 apt-get install -y libapache2-mod-wsgi
 cp ${MDCS_TARGET_PATH}/contrib/install/${MDCS_INSTALL_DIST}/000-default.conf /etc/apache2/sites-enabled
 systemctl enable apache2
 systemctl restart apache2
-echo "if you would like to login as ${MDCS_USER} from the ubuntu login page, execute \"sudo passwd ${MDCS_USER}\" and set a password to use from the login page"
+
+echo "If you would like to login as ${MDCS_USER} from the ubuntu login page, execute \"sudo passwd ${MDCS_USER}\" and set a password to use from the login page"
 echo "Otherwise you should be able to get into the ${MDCS_USER} environment from the console using \"sudo su - ${MDCS_USER}\""
 echo "MDCS should now be available at http://localhost"
 echo "When attempting to access MDCS via the host domain name, Django may throw an error if the host name is not in the"
