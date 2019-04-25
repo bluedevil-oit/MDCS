@@ -7,7 +7,7 @@
 # Installation
 #### This installer supports Ubuntu 16LTS ONLY and may not work (probably won't) on other versions or distributions of Linux.
 
-#### The target system should have least 4GB of internal memory and at least 40G of disk space available.
+#### The target system should have least 6GB of internal memory and at least 20G (base install - more if large datasets stored) of disk space available.
 
 ##### NOTE: This installer is tuned to a VM installation environment for development purposes only.
 #####   If you're creating a production or other shared environment, then adjust the installation script accordingly.
@@ -26,8 +26,9 @@
 -   NOTE: Usually, when Ubuntu 16 LTS is installed, the user specified during install is given sudo access by default.
 ```
 export MDCS_ADMIN_EMAIL='mdcs_admin@example.com' # replace this with the actual admin user email address to use
-export MDCS_INSTALL_FORK='usnistgov' # use your GitHub fork name if you intend to make changes and generate pull requests
-export MDCS_INSTALL_BRANCH='develop' # use a different branch if necessary e.g. large change or for production use latest tag name e.g. 2.0.1
+export MDCS_INSTALL_FORK='MYFORK' # use 'usnistgov' GitHub fork name if you do not intend to make changes and generate pull requests
+export MDCS_INSTALL_BRANCH='develop' # use a different branch if necessary e.g. large change or for production use latest tag name e.g. 2.1.0
+export MDCS_INSTALL_OVERRIDE_TAG="" # optional for installer dev to pull MDCS components from tag rather than fork - not needed unless doing installer dev
 export MDCS_USER=mdcs # mdcs username 
 export MDCS_HOME_PARENT_DIR='/' # home directory for the user will be created in this directory e.g. /mdcs (/home/USERNAME is usually the default)
 export MDCS_MONGO_PORT="27017" # override if necessary
