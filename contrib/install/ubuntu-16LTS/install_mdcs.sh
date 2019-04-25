@@ -23,5 +23,6 @@ python manage.py migrate
 python manage.py collectstatic --noinput
 python manage.py compilemessages
 
+# create the django super user
 # https://stackoverflow.com/a/42812446
 ./manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser(\"${MDCS_ADMIN_USER_NAME}\", \"${MDCS_ADMIN_EMAIL}\", \"${MDCS_ADMIN_USER_PWD}\")"
