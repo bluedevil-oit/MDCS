@@ -27,7 +27,7 @@
 ```
 export MDCS_ADMIN_EMAIL='mdcs_admin@example.com' # replace this with the actual admin user email address to use
 export MDCS_INSTALL_FORK='MYFORK' # use 'usnistgov' GitHub fork name if you do not intend to make changes and generate pull requests
-export MDCS_INSTALL_BRANCH='develop' # Use a tag like '2.1.0' for production or use a different branch for development
+export MDCS_INSTALL_BRANCH='develop' # Use a tag like '2.0.1' for production or use a different branch for development (note: 2.1.0 won't work with this installer yet)
 # NOTE: the following override tag MAY BE optional IF you know that you have access to ALL the MDCS components via the MDCS_INSTALL_BRANCH
 #   IF NOT, then the resulting install will fail.  This override allows the MDCS components to be pulled
 #   from tag rather than the specified fork. Note also that if the MDCS_INSTALL_BRANCH is set to a release tag the override is NOT necessary.  
