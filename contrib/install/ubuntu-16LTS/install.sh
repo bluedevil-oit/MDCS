@@ -297,7 +297,7 @@ echo "Otherwise you should be able to get into the ${MDCS_USER} environment from
 echo "MDCS should now be available at http://localhost"
 echo "When attempting to access MDCS via the host domain name, Django may throw an error if the host name is not in the"
 echo "   ALLOWED_HOSTS array located in mdcs/settings.py.  If it needs to be modified, execute 'systemctl restart apache2'"
-echo "   to enable the change."
+echo "   to enable the change. Note that the list should probably include 'localhost' and '127.0.0.1' as well as any configured domain host names."
 echo "Also, if there is a reverse-proxy upstream from the node, then it may be necessary for the proxy to set the X-FORWARDED-HOST"
 echo "   header (consult proxy vendor docs on how to do this) and set USE_X_FORWARDED_HOST=True in the mdcs/settings.py file."
 
