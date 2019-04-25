@@ -48,8 +48,8 @@ sudo -E ./mdcsinstall.sh 2>&1 | tee mdcsinstall.log # -E copies environment
 
 ##### Configuration
 - Login to the MDCS server as the configured super user and configure MDCS using the MDCS configuration documentation.
-- To obtain the super user id and password:
--    sudo su - mdcs
--    echo $MDCS_ADMIN_USER_NAME
--    echo $MDCS_ADMIN_USER_PWD
+- Use the following commands in a terminal session to obtain the super user id and password:
+  -    sudo su - mdcs
+     -    echo $MDCS_ADMIN_USER_NAME
+     -    echo $MDCS_ADMIN_USER_PWD
 
