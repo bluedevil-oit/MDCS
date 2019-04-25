@@ -19,9 +19,10 @@
 ##### Also, the user will be given sudo privileges (easily commented out if necessary e.g. a production server). This makes it easier to manage some services
 #####      the environment if logged in as the mdcs user. This is probably not appropriate in a production or shared environment!
 
+#### It's probably best to start with a clean VM i.e. newly installed Ubuntu instance.
 
-- MDCS will be installed into the /app directory under the 'mdcs' user directory - configured to be /mdcs. The full path is /mdcs/app.
-- It's probably best to start with a clean VM i.e. newly installed Ubuntu instance.
+
+- MDCS will be installed into the mdcs_app directory under the 'mdcs' user directory - configured to be /mdcs. The full path is /mdcs/mdcs_app.
 - Run the following commands in a terminal on the target system to prime and start the installation (the executing user needs sudo access).
 -   NOTE: Usually, when Ubuntu 16 LTS is installed, the user specified during install is given sudo access by default.
 ```
