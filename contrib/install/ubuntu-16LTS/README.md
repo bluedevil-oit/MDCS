@@ -31,7 +31,7 @@ export MDCS_INSTALL_BRANCH='develop' # Use a tag like '2.0.1' for production or 
 # NOTE: the following override tag MAY BE optional IF you know that you have access to ALL the MDCS components via the MDCS_INSTALL_BRANCH
 #   IF NOT, then the resulting install will fail.  This override allows the MDCS components to be pulled
 #   from tag rather than the specified fork. Note also that if the MDCS_INSTALL_BRANCH is set to a release tag the override is NOT necessary.  
-export MDCS_INSTALL_OVERRIDE_TAG="" # not necessary if MDCS_INSTALL_BRANCH is set to a release tag like '2.1.0' or it is know that the branch used has access to mdcs components
+export MDCS_INSTALL_OVERRIDE_TAG="" # not necessary if MDCS_INSTALL_BRANCH is set to a release tag like '2.0.1' or it is know that the branch used has access to mdcs components
 export MDCS_USER=mdcs # mdcs username 
 export MDCS_HOME_PARENT_DIR='/' # home directory for the user will be created in this directory e.g. /mdcs (/home/USERNAME is usually the default)
 export MDCS_MONGO_PORT="27017" # override if necessary
