@@ -7,7 +7,7 @@
 # Installation
 #### This installer supports Ubuntu 16LTS ONLY and may not work (probably won't) on other versions or distributions of Linux.
 
-#### The target system should have least 6GB of internal memory and at least 20G (base install - more if large datasets stored) of disk space available.
+#### The target system should have least 2GB of internal memory and at least 15G (base install - more if large datasets stored) of disk space available.
 
 ##### NOTE: This installer is tuned to a VM installation environment for development purposes only.
 #####   If you're creating a production or other shared environment, then adjust the installation script accordingly.
