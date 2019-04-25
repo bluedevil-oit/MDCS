@@ -14,8 +14,6 @@
 
 # export mdcspw=""
 
-export MDCS_INSTALL_DIST="ubuntu-16LTS"
-
 # not handling upgrades yet, so the following lines are disabled
 #if [[ -z ${MONGO_DUMP_DOWNLOAD_LOCATION} ]] ; then
 #  echo 'Export MONGO_DUMP_DOWNLOAD_LOCATION before running installer'
@@ -30,7 +28,7 @@ if [[ -z ${MDCS_INSTALL_FORK} ]]; then
 fi
 if [[ -z ${MDCS_INSTALL_BRANCH} ]]; then
   echo 'Export MDCS_INSTALL_BRANCH before running installer'
-  echo "hint: usually, this should be: 'develop'"
+  echo "hint: usually, this should be 'develop' or a tagged release like '2.1.0'"
   exit
 fi
 if [[ -z ${MDCS_USER} ]]; then

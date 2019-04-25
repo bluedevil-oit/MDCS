@@ -32,9 +32,10 @@ export MDCS_INSTALL_OVERRIDE_TAG="" # optional for installer dev to pull MDCS co
 export MDCS_USER=mdcs # mdcs username 
 export MDCS_HOME_PARENT_DIR='/' # home directory for the user will be created in this directory e.g. /mdcs (/home/USERNAME is usually the default)
 export MDCS_MONGO_PORT="27017" # override if necessary
+export MDCS_INSTALL_DIST="ubuntu-16LTS"
 sudo apt-get update
 sudo apt-get install -y curl
-curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/mdcs/${MDCS_INSTALL_BRANCH}/contrib/install/ubuntu-16LTS/install.sh > ./mdcsinstall.sh
+curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/mdcs/${MDCS_INSTALL_BRANCH}/contrib/install/${MDCS_INSTALL_DIST}/install.sh > ./mdcsinstall.sh
 chmod a+x ./mdcsinstall.sh
 sudo -E ./mdcsinstall.sh 2>&1 | tee mdcsinstall.log # -E copies environment
 ```
