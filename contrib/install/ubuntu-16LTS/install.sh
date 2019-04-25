@@ -235,9 +235,11 @@ systemctl restart redis
 
 (su - ${MDCS_USER} -c "git clone -b ${MDCS_INSTALL_BRANCH} https://github.com/${MDCS_INSTALL_FORK}/MDCS.git ${MDCS_TARGET_DIR}")
 
-## NOTE: TEMPORARY OVERRIDE! Since only 2.0.1 components are published, we force the requirements lists to 2.0.1 level
-(su - ${MDCS_USER} -c "curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/2.0.1/requirements.txt > ${MDCS_TARGET_DIR}/requirements.txt")
-(su - ${MDCS_USER} -c "curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/2.0.1/requirements.core.txt > ${MDCS_TARGET_DIR}/requirements.core.txt")
+## NOTE: TEMPORARY OVERRIDE! Since only 2.0.1 components are published, we force the requirements lists to the level specified by MDCS_INSTALL_OVERRIDE_TAG
+if [[ ! -z ${MDCS_INSTALL_OVERRIDE_TAG} ]]; then
+(su - ${MDCS_USER} -c "curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/${MDCS_INSTALL_OVERRIDE_TAG}/requirements.txt > ${MDCS_TARGET_DIR}/requirements.txt")
+(su - ${MDCS_USER} -c "curl -Lks https://raw.githubusercontent.com/${MDCS_INSTALL_FORK}/MDCS/${MDCS_INSTALL_OVERRIDE_TAG}/requirements.core.txt > ${MDCS_TARGET_DIR}/requirements.core.txt")
+fi
 ## END OVERRIDE
 
 (su - ${MDCS_USER} -c "cd ${MDCS_TARGET_DIR}; pip install -e git://github.com/MongoEngine/django-mongoengine.git@v0.2.1#egg=django-mongoengine; pip install --no-cache-dir -r requirements.txt; pip install --no-cache-dir -r requirements.core.txt")
