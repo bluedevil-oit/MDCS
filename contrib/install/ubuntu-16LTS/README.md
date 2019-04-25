@@ -17,7 +17,8 @@
 ##### The file will be 'sourced' by the  mdcs user's login scripts to ensure availability of the variables. 
 ##### These variables are not accessible out side of the mdcs user environment (except for root of course). The file may also be sourced by service scripts running under the mdcs or root users.
 ##### Also, the user will be given sudo privileges (easily commented out if necessary e.g. a production server). This makes it easier to manage some services
-#####      the environment if logged in as the mdcs user. This is probably not appropriate in a production or shared environment!
+#####      and the environment if logged in as the mdcs user. 
+#####      This is probably not appropriate in a production or shared environment!
 
 #### It's probably best to start with a clean VM i.e. newly installed Ubuntu instance.
 
