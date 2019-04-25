@@ -16,9 +16,7 @@
 #####   The MDCS_HOME/mdcs_vars file will be set so that no users other than 'mdcs' and 'root' are able to read the file. 
 ##### The file will be 'sourced' by the  mdcs user's login scripts to ensure availability of the variables. 
 ##### These variables are not accessible out side of the mdcs user environment (except for root of course). The file may also be sourced by service scripts running under the mdcs or root users.
-##### Also, the user will be given sudo privileges (easily commented out if necessary e.g. a production server). This makes it easier to manage some services
-#####      and the environment if logged in as the mdcs user. 
-#####      This is probably not appropriate in a production or shared environment!
+##### Also, the user will be given sudo privileges (easily commented out if necessary e.g. a production server). This makes it easier to manage some services and the environment if logged in as the mdcs user. This is probably not appropriate in a production or shared environment!
 
 #### It's probably best to start with a clean VM i.e. newly installed Ubuntu instance.
 
@@ -41,3 +39,4 @@ chmod a+x ./mdcsinstall.sh
 sudo -E ./mdcsinstall.sh 2>&1 | tee mdcsinstall.log # -E copies environment
 ```
 ##### The installation will require several minutes. For troubleshooting, a log (mdcsinstall.log) will is created by the installer.
+#### The installer enables an Apache based WSGI environment and the MDCS server will be available at the default http port(80) at address http://localhost
