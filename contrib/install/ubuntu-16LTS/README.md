@@ -44,3 +44,12 @@ sudo -E ./mdcsinstall.sh 2>&1 | tee mdcsinstall.log # -E copies environment
 ```
 ##### The installation will require several minutes. For troubleshooting, a log (mdcsinstall.log) will is created by the installer.
 #### The installer enables an Apache based WSGI environment and the MDCS server will be available at the default http port(80) at address http://localhost
+
+
+##### Configuration
+- Login to the MDCS server as the configured super user and configure MDCS using the MDCS configuration documentation.
+- To obtain the super user id and password:
+-    sudo su - mdcs
+-    echo $MDCS_ADMIN_USER_NAME
+-    echo $MDCS_ADMIN_USER_PWD
+
